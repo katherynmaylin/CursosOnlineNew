@@ -21,7 +21,7 @@ public class Conexion {
             } catch (Exception e) {
                 System.out.println("Ocurrio un error : "+e.getMessage());
             }
-            System.out.println("La conexión se realizo sin problemas! => " + "Angelo silva pincay");
+            System.out.println("CONEXION CON EXITO " + "KATHERYN VERA BAQUE");
           return conn;  
     }
   public static void cerrar() throws SQLException {

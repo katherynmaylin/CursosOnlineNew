@@ -2,6 +2,7 @@
 package cursosonline.Dao;
 
 import Conexiones.Conexion;
+import Utileria.Util;
 import cursosonline.entidades.Curso;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -42,56 +43,50 @@ public class cursoDaoImp implements CursoDao{
         return cursos;
     }
       public void ingresar(Curso cursos) {
-     try {
-            Conexion conexion = new Conexion();
-            Connection conn = null;
-            conn = Conexion.conector();
-            String sql = "INSERT INTO  public.cursos(nombre) values (?);";
-            PreparedStatement psta = conn.prepareStatement(sql);
-            psta.setString(1, cursos.getNombre());
-            psta.execute();
+        String query = "INSERT INTO public.cursos(nombre) VALUES (?);";
+        Connection conn;
+          try {
+              conn = DriverManager.getConnection(Util.url, Util.usuario, Util.password);
+              PreparedStatement stm = conn.prepareStatement(query);
+              stm.setString(1, cursos.getNombre());
+              stm.execute();
          
-            psta.close();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e);
+            e.printStackTrace();
         }
-    }
-    
-
+   }
+        
     @Override
     public void actualizar(Curso cursos) {
-      try {
-            Conexion conexion = new Conexion();
-            Connection conn = null;
-            conn =Conexion.conector();
-            String sqlinsertar = "Update  public.cursos set nombre=? where id=?";
-            PreparedStatement psta = conn.prepareStatement(sqlinsertar);
-            psta.setString(1, cursos.getNombre());
-            psta.setInt(2, cursos.getId());
-            psta.execute();
-            
-            psta.close();
+      String query = "UPDATE public.cursos SET nombre=? WHERE id=?;";
+        Connection conn;
+          try {
+              conn = DriverManager.getConnection(Util.url, Util.usuario, Util.password);
+              
+              PreparedStatement stm = conn.prepareStatement(query);
+              stm.setString(1, cursos.getNombre());
+              stm.setInt(2, cursos.getId());
+              stm.execute();
+         
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e);
+            e.printStackTrace();
         }
-    }
-
+   }
     @Override
     public void eliminar(int id) {
-    try {
-            Conexion coneccion = new Conexion();
-            Connection conn = null;
-            conn = Conexion.conector();
-            String sqldelete = "Delete From  public.cursos where id=?";
-            PreparedStatement psta = conn.prepareStatement(sqldelete);
-            psta.setInt(1, id);
-            psta.execute();
-           // conn.commit();
-            psta.close();
+    String query = "DELETE FROM public.cursos WHERE id=?;";
+        Connection conn;
+          try {
+              conn = DriverManager.getConnection(Util.url, Util.usuario, Util.password);
+              
+              PreparedStatement stm = conn.prepareStatement(query);
+              stm.setInt(1,id);
+              stm.execute();
+         
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e);
+            e.printStackTrace();
         }
-    }
+   }
 }
     
 
