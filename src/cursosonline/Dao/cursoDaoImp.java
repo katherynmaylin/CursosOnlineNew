@@ -80,7 +80,7 @@ public class cursoDaoImp implements CursoDao{
               conn = DriverManager.getConnection(Util.url, Util.usuario, Util.password);
               
               PreparedStatement stm = conn.prepareStatement(query);
-              stm.setInt(1,id);
+             
               stm.execute();
          
         } catch (SQLException e) {

@@ -13,8 +13,6 @@ public class Conexion {
     static Connection conn = null;
     public static Connection conector() {
         
-         
-            
             try {
                 Class.forName("org.postgresql.Driver");
                 conn = DriverManager.getConnection(url,usuario, password);
