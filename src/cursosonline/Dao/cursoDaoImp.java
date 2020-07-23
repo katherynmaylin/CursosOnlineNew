@@ -4,6 +4,7 @@ package cursosonline.Dao;
 import Conexiones.Conexion;
 import Utileria.Util;
 import cursosonline.entidades.Curso;
+import cursosonline.entidades.Estudiante;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.ArrayList;
@@ -19,23 +20,19 @@ import javax.swing.JOptionPane;
 public class cursoDaoImp implements CursoDao{
     
 
-
-    @Override
-    public List<Curso> getCursos() {
+   @Override
+    public List<Curso> getCurso() {
        List<Curso> cursos=new ArrayList<>();
        Connection conn;
         try {
            conn = Conexion.conector();
-           String sql="select id, nombre from public.cursos;";
+           String sql="SELECT id,nombre FROM public.cursos;";
            PreparedStatement stm= conn.prepareStatement(sql);
            ResultSet rs=stm.executeQuery();
            while(rs.next()){
                Curso curso =new Curso(rs.getInt(1), rs.getString(2));
                cursos.add(curso);
-               
-
-                       }
-        
+        }
       }catch (SQLException ex) {
             
               ex.printStackTrace();
@@ -87,6 +84,36 @@ public class cursoDaoImp implements CursoDao{
             e.printStackTrace();
         }
    }
+
+
+    public List<Estudiante> getEstudiantesPorCurso(int cursoId) {
+        String query= "SELECT estudiantes.id, nombres, apellidos, email"+
+	"FROM public.estudiantes"+
+	"INNER JOIN cursos_estudiantes on estudiantes.id = cursos_estudiantes.estudiantes_id"+
+	"where cursos_estudiantes.cursos_id=?;";
+	
+        List<Estudiante>estudiantes = new ArrayList<Estudiante>();
+        Connection conn;
+        try {
+              conn = DriverManager.getConnection(Util.url, Util.usuario, Util.password);  
+              PreparedStatement stm = conn.prepareStatement(query);
+              stm.setInt(1, cursoId);
+              ResultSet rs = stm.executeQuery();
+              while(rs.next()){
+                  Estudiante estudiante = new Estudiante(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getString(4));
+                  estudiantes.add(estudiante);
+              }
+              
+        } catch (SQLException e) {
+            Logger.getLogger(cursoDaoImp.class.getName()).log(Level.SEVERE, null, e);
+        }
+        
+        return estudiantes;
+    }
+
+ 
+ 
+    
 }
     
 

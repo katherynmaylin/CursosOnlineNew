@@ -1,15 +1,26 @@
 
 package cursosonline.entidades;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Estudiante {
      private int id;
     private String nombres;
     private String apellidos;
     private String email;
+    private List<Curso> cursos = new ArrayList<>();
 
-    public Estudiante(){}
+    public List<Curso> getCursos() {
+        return cursos;
+    }
+
+    public void setCursos(List<Curso> cursos) {
+        this.cursos = cursos;
+    }
     
+    public Estudiante(){}
     public Estudiante(int id, String nombres, String apellidos, String email){
     
     this.id= id;
@@ -50,5 +61,9 @@ public class Estudiante {
         this.email = email;
     }
 
-   
+   @Override
+    public String toString() {
+        return "Estudiante{" + "id=" + id + ", nombre=" + nombres + ", apellidos=" + apellidos + ", email=" + email + '}';
+    }
+    
 }
